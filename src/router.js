@@ -1,23 +1,48 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+// import Home from './views/Home.vue'
+import Login from './components/pages/Login.vue'
+import Dashboard from './components/Dashboard.vue'
+import Products from './components/pages/Products.vue'
+
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home
+      path: '*', // 亂輸入網址會回到 login
+      redirect: 'login',
     },
+    // {
+    //   path: '/home',
+    //   name: 'home',
+    //   component: Home,
+    //   meta: { requiresAuth: true }
+    // },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+      component: () => import('./views/About.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/admin',
+      name: 'dashboard',
+      component: Dashboard,
+      children: [
+        {
+          path: 'products', // 不要再寫斜線
+          name: 'Products',
+          component: Products,
+          meta: { requiresAuth: true }
+        },
+      ]
+    },
   ]
 })
