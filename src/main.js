@@ -15,11 +15,9 @@ new Vue({
 }).$mount('#app')
 
 router.beforeEach((to, from, next) => {
-  console.log('to', to, 'from', from, 'next', next)
-
-  if (to.meta.requiresAuth) { // 如果持續登入為 true
+  console.log('to', to, 'from', from, 'next', next);
+  if (to.meta.requiresAuth) { // 如果下個頁面的 meta.requirsAuth 為 true
     const api = `${process.env.VUE_APP_APIPATH}/api/user/check` //'https://vue-course-api.hexschool.io/api/lizaosan/products';
-    const vm = this;
     axios.post(api).then((response) => {
       console.log(response.data)
       if (response.data.success) {
@@ -27,7 +25,7 @@ router.beforeEach((to, from, next) => {
       } else {
         next({
           path: '/login',
-        })
+        });
       }
     });
   } else {
