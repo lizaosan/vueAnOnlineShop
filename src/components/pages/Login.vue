@@ -36,7 +36,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/admin/signin` //'https://vue-course-api.hexschool.io/api/lizaosan/products';
       const vm = this;
       this.$http.post(api, vm.user).then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         if (response.data.success) {
           vm.$router.push('/admin/products')
         }

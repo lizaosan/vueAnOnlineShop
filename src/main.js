@@ -1,11 +1,20 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import 'bootstrap';
+// 上面通常載入 npm 的套件內容
+
 import App from './App.vue'
 import router from './router'
+import './bus';
+// 下面通常載入 自定義 的套件內容
  
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
+
+Vue.component('Loading', Loading);
 
 axios.defaults.withCredentials = true;
 
