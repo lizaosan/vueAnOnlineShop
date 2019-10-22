@@ -21,12 +21,6 @@ export default new Router({
     //   meta: { requiresAuth: true }
     // },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('./views/About.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
       path: '/login',
       name: 'Login',
       component: Login

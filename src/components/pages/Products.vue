@@ -37,6 +37,8 @@
                 </tr>
             </tbody>
         </table>
+        <!-- Pagination -->
+        <PageComponent @postPage="getProducts" :getPagin="pagination"></PageComponent>
         <!-- Modal -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -171,10 +173,16 @@
 <script>
 import $ from 'jquery';
 
+import PageComponent from '../Pagination';
+
 export default { // 讓這段程式碼可以匯出給其他元件使用
+    components: {
+        PageComponent,
+    },
     data () {
         return {
             products: [],
+            pagination: {},
             tempProduct: {},
             isNew: false,
             isDelete: '',
@@ -185,9 +193,9 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
         };
     },
     methods: {
-        getProducts() {
+        getProducts(page = 1) { // es6 的參數預設值，預設帶入第一頁進來，讓其他程式碼使用，如果後來傳入的數值不為 1 就用後來的數值來替代
             // console.log(process.env.VUE_APP_APIPATH, process.env.VUE_APP_CUSTOMPATH)
-            const api =`${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products`;
+            const api =`${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`;
             // const api =`${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products`;
             // API 伺服器路徑
             // 所申請的 API path
@@ -197,6 +205,7 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
                 console.log(response.data)
                 vm.isLoading = false;
                 vm.products = response.data.products;
+                vm.pagination = response.data.pagination;
             });
         },
         openModal(isNew, item) {

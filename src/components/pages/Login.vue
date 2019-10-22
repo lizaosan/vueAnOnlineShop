@@ -40,7 +40,7 @@ export default {
         if (response.data.success) {
           vm.$router.push('/admin/products')
         }
-    });
+      });
     }
   }
 
