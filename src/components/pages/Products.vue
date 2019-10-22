@@ -38,7 +38,7 @@
             </tbody>
         </table>
         <!-- Pagination -->
-        <PageComponent @postPage="getProducts" :getPagin="pagination"></PageComponent>
+        <PageComponent @postPage="getProducts" :get-page="pagination"></PageComponent>
         <!-- Modal -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
