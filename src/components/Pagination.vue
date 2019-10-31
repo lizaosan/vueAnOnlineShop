@@ -32,9 +32,8 @@
  
 <script>
 export default {
-    name:'PageComponent',
     props:['getPage'],
-    /* 從父元件 :getPage='getProducts' 傳來的資料，所以元件裡的 pegination 都變成 getPage */
+    /* 從父元件 :getPage='pagination' 傳來的資料，所以元件裡原為 pegination 都變成 getPage */
     data(){
         return {};
     },
