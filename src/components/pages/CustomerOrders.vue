@@ -74,6 +74,42 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>品名</th>
+                            <th class="text-right" width="60">數量</th>
+                            <th class="text-right" width="80">單價</th>
+                            <th class="text-center" width="60">刪除</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item) in carts.carts" :key="item.id">
+                            <td>{{ item.product.title }}</td>
+                            <td class="text-right">{{ item.qty }}{{ item.product.unit }}</td>
+                            <td class="text-right">{{ item.product.origin_price * item.qty | currency }}</td>
+                            <td class="text-center"><a href="#" class="text-danger"><i class="fas fa-trash-alt"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><div class="text-right">總計</div></td>
+                            <td class="text-center">{{ carts.total | currency }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><div class="text-primary text-right">折扣價</div></td>
+                            <td class="text-center"><b class="text-primary">{{ carts.final_total | currency }}</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+            <div class="col-md-3"></div> 
+        </div>   
     </div>
 </template>
 
@@ -84,6 +120,7 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
     data () {
         return {
             products: [],
+            carts: [],
             product: {},
             status: {
                 loadingItem: '',
@@ -125,11 +162,24 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
             this.$http.post(api, {data: cart }).then((response) => {
                 console.log(response.data)
                 vm.status.loadingItem = '';
+                vm.getCart();
+                $('#productModal').modal('hide');
             });
+        },
+        getCart() {
+            const api =`${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+            const vm = this; 
+            vm.isLoading = true;
+            this.$http.get(api).then((response) => {
+                console.log(response.data)
+                vm.isLoading = false;
+                vm.carts = response.data.data;
+            });            
         }
     },
     created() {
         this.getProducts();
+        this.getCart();
     }
 }
 
