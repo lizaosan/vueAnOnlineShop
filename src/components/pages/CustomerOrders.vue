@@ -90,23 +90,25 @@
                         <tr v-for="(item) in carts.carts" :key="item.id">
                             <td>{{ item.product.title }}</td>
                             <td class="text-right">{{ item.qty }}{{ item.product.unit }}</td>
-                            <td class="text-right">{{ item.product.origin_price * item.qty | currency }}</td>
-                            <td class="text-center"><a href="#" class="text-danger"><i class="fas fa-trash-alt"></i></a></td>
+                            <td class="text-right">{{ item.product.price * item.qty | currency }}</td>
+                            <td class="text-center"><a href="#" class="text-danger" @click.prevent="removeCartItem(item.id)"><i class="fas fa-trash-alt"></i></a></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td><div class="text-right">總計</div></td>
+                            <td colspan="3"><div class="text-right">總計</div></td>
                             <td class="text-center">{{ carts.total | currency }}</td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td><div class="text-primary text-right">折扣價</div></td>
+                        <tr v-if="carts.final_total !== carts.total">
+                            <td colspan="3"><div class="text-primary text-right">折扣價</div></td>
                             <td class="text-center"><b class="text-primary">{{ carts.final_total | currency }}</b></td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="input-group mb-3 input-group-sm">
+                    <input type="text" class="form-control" v-model="coupon_code" placeholder="請輸入優惠碼">
+                    <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-primary" @click.prevent="addCouponCode()">提交優惠碼</button>
+                    </div>
+                </div>
             </div> 
             <div class="col-md-3"></div> 
         </div>   
@@ -126,6 +128,7 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
                 loadingItem: '',
             },
             isLoading: false,
+            coupon_code: '',
         };
     },
     methods: {
@@ -175,6 +178,29 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
                 vm.isLoading = false;
                 vm.carts = response.data.data;
             });            
+        },
+        removeCartItem(id) {
+            const api =`${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
+            const vm = this; 
+            vm.isLoading = true;
+            this.$http.delete(api).then((response) => {
+                console.log(response.data)
+                vm.getCart();
+                vm.isLoading = false;
+            });   
+        },
+        addCouponCode() {
+            const api =`${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
+            const vm = this; 
+            const coupon = {
+                code: vm.voupon_code
+            }
+            vm.isLoading = true;
+            this.$http.post(api, {data: coupon}).then((response) => {
+                console.log(response.data)
+                vm.getCart();
+                vm.isLoading = false;
+            });   
         }
     },
     created() {
