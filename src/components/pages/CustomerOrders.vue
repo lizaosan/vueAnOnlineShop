@@ -109,6 +109,35 @@
                     <button type="submit" class="btn btn-outline-primary" @click.prevent="addCouponCode()">提交優惠碼</button>
                     </div>
                 </div>
+                <form>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="請輸入 Email">
+                        <span class="text-danger">Email不得為空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">收件人姓名</label>
+                        <input type="text" class="form-control" id="username" placeholder="請輸入姓名">
+                        <span class="text-danger">姓名不得為空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="usertel">收件人電話</label>
+                        <input type="tel" class="form-control" id="usertel" placeholder="請輸入電話">
+                        <span class="text-danger">電話不得為空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="useraddress">收件人地址</label>
+                        <input type="text" class="form-control" id="useraddress" placeholder="請輸入地址">
+                        <span class="text-danger">地址不得為空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="usermessage">留言</label>
+                        <textarea class="form-control" id="usermessage" cols="30" rows="10" v-model="form.message"></textarea>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-danger">送出訂單</button>
+                    </div>
+                </form>
             </div> 
             <div class="col-md-3"></div> 
         </div>   
@@ -129,6 +158,9 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
             },
             isLoading: false,
             coupon_code: '',
+            form: {
+                message: '',
+            }
         };
     },
     methods: {
