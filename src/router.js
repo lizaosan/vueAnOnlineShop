@@ -5,8 +5,12 @@ import Login from './components/pages/Login.vue'
 import Dashboard from './components/Dashboard.vue'
 import Products from './components/pages/Products.vue'
 import CustomerOrder from './components/pages/CustomerOrders'
+import { ValidationProvider, extend, ValidationObserver} from 'vee-validate';
+
 
 Vue.use(Router)
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 
 export default new Router({
   routes: [

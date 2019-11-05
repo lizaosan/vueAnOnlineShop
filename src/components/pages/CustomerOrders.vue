@@ -109,26 +109,35 @@
                     <button type="submit" class="btn btn-outline-primary" @click.prevent="addCouponCode()">提交優惠碼</button>
                     </div>
                 </div>
-                <form>
+                <form @submit.prevent="createOrder">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="請輸入 Email">
-                        <span class="text-danger">Email不得為空</span>
+                        <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
+                            <input v-model="form.user.email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="請輸入 Email">
+                            <span class="text-danger">{{ errors[0] }}</span>
+                        </ValidationProvider>
+
                     </div>
                     <div class="form-group">
                         <label for="username">收件人姓名</label>
-                        <input type="text" class="form-control" id="username" placeholder="請輸入姓名">
-                        <span class="text-danger">姓名不得為空</span>
+                        <ValidationProvider name="姓名" rules="required" v-slot="{ errors }">
+                            <input v-model="form.user.name" type="text" class="form-control" id="username" placeholder="請輸入姓名">
+                            <span class="text-danger">{{ errors[0] }}</span>
+                        </ValidationProvider>
                     </div>
                     <div class="form-group">
                         <label for="usertel">收件人電話</label>
-                        <input type="tel" class="form-control" id="usertel" placeholder="請輸入電話">
-                        <span class="text-danger">電話不得為空</span>
+                        <ValidationProvider name="電話" rules="required" v-slot="{ errors }">
+                            <input v-model="form.user.tel" type="tel" class="form-control" id="usertel" placeholder="請輸入電話">
+                            <span class="text-danger">{{ errors[0] }}</span>
+                        </ValidationProvider>
                     </div>
                     <div class="form-group">
                         <label for="useraddress">收件人地址</label>
-                        <input type="text" class="form-control" id="useraddress" placeholder="請輸入地址">
-                        <span class="text-danger">地址不得為空</span>
+                        <ValidationProvider name="地址" rules="required" v-slot="{ errors }">
+                            <input v-model="form.user.address" type="text" class="form-control" id="useraddress" placeholder="請輸入地址">
+                            <span class="text-danger">{{ errors[0] }}</span>
+                        </ValidationProvider>
                     </div>
                     <div class="form-group">
                         <label for="usermessage">留言</label>
@@ -159,8 +168,15 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
             isLoading: false,
             coupon_code: '',
             form: {
+                user: {
+                    name: '',
+                    email: '',
+                    tel: '',
+                    address: '',
+                },
                 message: '',
-            }
+            },
+            
         };
     },
     methods: {
@@ -230,6 +246,17 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
             vm.isLoading = true;
             this.$http.post(api, {data: coupon}).then((response) => {
                 console.log(response.data)
+                vm.getCart();
+                vm.isLoading = false;
+            });   
+        },
+        createOrder() {
+            const api =`${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
+            const vm = this; 
+            const order = vm.form;
+            vm.isLoading = true;
+            this.$http.post(api, {data: order}).then((response) => {
+                console.log('訂單已建立', response.data)
                 vm.getCart();
                 vm.isLoading = false;
             });   
