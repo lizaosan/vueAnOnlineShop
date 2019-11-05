@@ -109,7 +109,8 @@
                     <button type="submit" class="btn btn-outline-primary" @click.prevent="addCouponCode()">提交優惠碼</button>
                     </div>
                 </div>
-                <form @submit.prevent="createOrder">
+                <ValidationObserver ref="observer" v-slot="{ invalid }" @submit.prevent="createOrder()">
+                <form id="order">
                     <div class="form-group">
                         <label for="email">Email</label>
                         <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
@@ -144,9 +145,10 @@
                         <textarea class="form-control" id="usermessage" cols="30" rows="10" v-model="form.message"></textarea>
                     </div>
                     <div class="text-right">
-                        <button type="submit" class="btn btn-danger">送出訂單</button>
+                        <button :disabled="invalid" type="submit" class="btn btn-danger">送出訂單</button>
                     </div>
                 </form>
+                </ValidationObserver>
             </div> 
             <div class="col-md-3"></div> 
         </div>   
