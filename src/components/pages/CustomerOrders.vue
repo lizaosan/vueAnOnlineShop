@@ -259,7 +259,9 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
             vm.isLoading = true;
             this.$http.post(api, {data: order}).then((response) => {
                 console.log('訂單已建立', response.data)
-                vm.getCart();
+                if (response.data.success) {
+                    vm.$router.push(`/customer_checkout/${response.data.orderId}`)
+                }
                 vm.isLoading = false;
             });   
         }

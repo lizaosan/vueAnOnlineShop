@@ -57,7 +57,7 @@
                         <div class="form-group">
                         <label for="image">輸入圖片網址</label>
                         <input type="text" class="form-control" id="image"
-                            v-model="tempProduct.imageUrl"
+                            v-model="tempProduct.image"
                             placeholder="請輸入圖片連結">
                         </div>
                         <div class="form-group">
@@ -68,7 +68,7 @@
                             ref="files" @change="uploadFile">
                         </div>
                         <img img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
-                        class="img-fluid" :src="tempProduct.imageUrl" alt="">
+                        class="img-fluid" :src="tempProduct.image" alt="">
                     </div>
                     <div class="col-sm-8">
                         <div class="form-group">
@@ -271,9 +271,10 @@ export default { // 讓這段程式碼可以匯出給其他元件使用
                 },
             }).then(
                 function(response) { // 練習把箭頭函式還原
+                console.log(response.data);
                     vm.status.fileUploading = false;
                     if (response.data.success) {
-                        vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl);
+                        vm.$set(vm.tempProduct, 'image', response.data.imageUrl);
                         return response;
                     } else {
                         vm.$bus.$emit('message:push', response.data.message, 'danger')

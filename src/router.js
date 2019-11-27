@@ -5,6 +5,7 @@ import Login from './components/pages/Login.vue'
 import Dashboard from './components/Dashboard.vue'
 import Products from './components/pages/Products.vue'
 import CustomerOrder from './components/pages/CustomerOrders'
+import CustomerCheckout from './components/pages/CustomerCheckout'
 import { ValidationProvider, extend, ValidationObserver} from 'vee-validate';
 
 
@@ -51,6 +52,11 @@ export default new Router({
           path: 'customer-order', // 不要再寫斜線
           name: 'CustomerOrder',
           component: CustomerOrder,
+        },
+        {
+          path: 'customer_checkout/:orderId', // 不要再寫斜線
+          name: 'CustomerCheckout',
+          component: CustomerCheckout,
         },
       ]
     },
